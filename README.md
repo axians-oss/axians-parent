@@ -29,7 +29,7 @@ The default encoding is UTF-8. You can override this by setting the `project.bui
 
 ## Profiles
 The following profiles are available:
-- `release` - This profile is used to release the project. It will enable the `maven-release-plugin` to create and deploy a release of your project.
+- `release` - This profile is used to release the project. It will enable the `maven-release-plugin` to create and deploy a release of your project. It will also activate the `maven-javadoc-plugin` to generate the Javadoc and the `maven-source-plugin` to attach the source code to the release.
 
 
 - `qa` - This profile is used to run the quality analysis tools. It will enable the following plugins:
