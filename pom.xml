@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.axians</groupId>
-    <artifactId>axians-parent</artifactId>
+    <artifactId>axians</artifactId>
     <version>1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -74,12 +74,13 @@
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
+        <maven-gpg-plugin.Version>3.1.0</maven-gpg-plugin.Version>
 
         <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <owasp-dependency-check-maven.version>9.0.9</owasp-dependency-check-maven.version>
-        <jaxb-plugin-tools.version>4.0.5</jaxb-plugin-tools.version>
+        <owasp-sonar-maven-plugin.version>1.0.0-SNAPSHOT</owasp-sonar-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -216,7 +217,9 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>${maven-release-plugin.version}</version>
                     <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
                         <useReleaseProfile>false</useReleaseProfile>
+                        <goals>deploy</goals>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -280,6 +283,10 @@
                     <groupId>pl.project13.maven</groupId>
                     <artifactId>git-commit-id-plugin</artifactId>
                     <version>${git-commit-id-plugin.version}</version>
+                    <configuration>
+                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>
@@ -287,11 +294,6 @@
                             </goals>
                         </execution>
                     </executions>
-
-                    <configuration>
-                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.owasp</groupId>
@@ -329,9 +331,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>io.athena.plugins</groupId>
-                        <artifactId>maven-owasp-sonar-report-plugin</artifactId>
-                        <version>1.3</version>
+                        <groupId>nl.axians.maven.reporting</groupId>
+                        <artifactId>owasp-sonar-maven-plugin</artifactId>
+                        <version>${owasp-sonar-maven-plugin.version}</version>
                         <dependencies>
                             <dependency>
                                 <groupId>org.owasp</groupId>
@@ -388,7 +390,57 @@
             </build>
         </profile>
         <profile>
-            <id>release</id>
+            <id>public-release</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.Version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>private-release</id>
             <build>
                 <plugins>
                     <plugin>
