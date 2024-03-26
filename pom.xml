@@ -82,6 +82,7 @@
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <owasp-dependency-check-maven.version>9.0.9</owasp-dependency-check-maven.version>
         <owasp-sonar-maven-plugin.version>1.0.0-SNAPSHOT</owasp-sonar-maven-plugin.version>
+        <jkube-maven-plugin.version>1.16.1</jkube-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -466,6 +467,49 @@
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.jkube</groupId>
+                        <artifactId>kubernetes-maven-plugin</artifactId>
+                        <version>${jkube-maven-plugin.version}</version>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <buildStrategy>docker</buildStrategy>
+                            <images>
+                                <image>
+                                    <name>axiansisneptune.azurecr.io/tica/crm/${project.artifactId}:${project.version}</name>
+                                    <alias>${project.artifactId}</alias>
+                                    <build>
+                                        <from>eclipse-temurin:21-jre-alpine</from>
+                                        <entryPoint>
+                                            <exec>
+                                                <arg>java</arg>
+                                                <arg>-jar</arg>
+                                                <arg>/maven/${project.build.finalName}.jar</arg>
+                                            </exec>
+                                        </entryPoint>
+                                        <ports>
+                                            <port>8080</port>
+                                        </ports>
+                                    </build>
+                                </image>
+                            </images>
+                         </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
                                 </goals>
                             </execution>
                         </executions>
