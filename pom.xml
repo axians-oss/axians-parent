@@ -307,6 +307,34 @@
                     <artifactId>jaxb-plugins-tools</artifactId>
                     <version>${jaxb-plugins-tools.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.eclipse.jkube</groupId>
+                    <artifactId>kubernetes-maven-plugin</artifactId>
+                    <version>${jkube-maven-plugin.version}</version>
+                    <configuration>
+                        <verbose>true</verbose>
+                        <buildStrategy>docker</buildStrategy>
+                        <images>
+                            <image>
+                                <name>${docker.image.name}</name>
+                                <alias>${project.artifactId}</alias>
+                                <build>
+                                    <from>eclipse-temurin:21-jre-alpine</from>
+                                    <entryPoint>
+                                        <exec>
+                                            <arg>java</arg>
+                                            <arg>-jar</arg>
+                                            <arg>/maven/${project.build.finalName}.jar</arg>
+                                        </exec>
+                                    </entryPoint>
+                                    <ports>
+                                        <port>8080</port>
+                                    </ports>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
