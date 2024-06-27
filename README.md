@@ -8,7 +8,7 @@ To use this parent, add the following to your project's `pom.xml`:
 <parent>
     <groupId>nl.axians</groupId>
     <artifactId>axians-parent</artifactId>
-    <version>1</version>
+    <version>5</version>
 </parent>
 ```
 The default Java version being used is 21. You can override this by setting the `maven.compiler.source`, `maven.compiler.target` and `maven.compiler.release` properties in your project's `pom.xml`. To use Java 17 for example you can add the following properties in your `pom.xml`:
