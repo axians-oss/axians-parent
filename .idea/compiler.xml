@@ -11,6 +11,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="axians" options="-parameters" />
       <module name="axians-parent" options="-parameters" />
     </option>
   </component>

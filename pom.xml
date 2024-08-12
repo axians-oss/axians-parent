@@ -323,6 +323,7 @@
                                     <entryPoint>
                                         <exec>
                                             <arg>java</arg>
+                                            <arg>-XX:+ExitOnOutOfMemoryError</arg>
                                             <arg>-jar</arg>
                                             <arg>/maven/${project.build.finalName}.jar</arg>
                                         </exec>
