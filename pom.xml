@@ -473,7 +473,8 @@
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>ossrh</publishingServerId>
-                            <tokenAuth>true</tokenAuth>
+                            <autoPublish>true</autoPublish>
+                            <deploymentName>axians-parent</deploymentName>
                         </configuration>
                     </plugin>
                 </plugins>
