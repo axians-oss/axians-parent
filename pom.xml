@@ -478,7 +478,7 @@
                         <configuration>
                             <publishingServerId>ossrh</publishingServerId>
                             <autoPublish>true</autoPublish>
-                            <deploymentName>axians-parent</deploymentName>
+                            <deploymentName>${project.artifactId}</deploymentName>
                         </configuration>
                     </plugin>
                 </plugins>
