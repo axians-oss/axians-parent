@@ -84,8 +84,15 @@
         <owasp-sonar-maven-plugin.version>1.0.1</owasp-sonar-maven-plugin.version>
 
         <!-- Spring Boot Maven plugin settings -->
-        <container-registry />
+        <container-registry>local</container-registry>
         <skip.native.image>true</skip.native.image>
+        <metadata-repository.version>0.3.15</metadata-repository.version>
+
+        <!-- OWASP settings -->
+        <owasp.db.connectionString />
+        <owasp.db.username />
+        <owasp.db.password />
+        <owasp.nvdApiKey />
 
         <!-- Framework versions -->
         <spring-boot.version>3.4.0</spring-boot.version>
@@ -306,7 +313,7 @@
                     <extensions>true</extensions>
                     <configuration>
                         <metadataRepository>
-                            <version>0.3.15</version>
+                            <version>${metadata-repository.version}</version>
                         </metadataRepository>
                     </configuration>
                     <executions>
@@ -375,13 +382,12 @@
                         </dependencies>
                         <configuration>
                             <format>JSON</format>
-                            <connectionString>jdbc:postgresql://cve-db.postgres.database.azure.com:5432/cve-db
-                            </connectionString>
-                            <databaseUser>dcuser</databaseUser>
-                            <databasePassword>2utp81Un5Ow7gopx</databasePassword>
+                            <connectionString>${owasp.db.connectionString}</connectionString>
+                            <databaseUser>${owasp.db.username}</databaseUser>
+                            <databasePassword>${owasp.db.password}</databasePassword>
                             <databaseDriverName>org.postgresql.Driver</databaseDriverName>
                             <autoUpdate>true</autoUpdate>
-                            <nvdApiKey>3d3cd139-50ee-46a5-88de-8459455f3a7c</nvdApiKey>
+                            <nvdApiKey>${owasp.nvdApiKey}</nvdApiKey>
                         </configuration>
                         <executions>
                             <execution>
