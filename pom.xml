@@ -180,7 +180,9 @@
                     <version>${maven-gpg-plugin.version}</version>
                     <configuration>
                         <gpgArguments>
-                            <args>--digest-algo=SHA512</args>
+                            <arg>--digest-algo=SHA512</arg>
+                            <arg>--pinentry-mode</arg>
+                            <arg>loopback</arg>
                         </gpgArguments>
                     </configuration>
                 </plugin>
