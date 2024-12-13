@@ -31,7 +31,7 @@ steps:
             <servers>
                 <server>
                     <id>central</id>
-                    <username>${SonatypeUserName}</username>
+                    <username>${SonatypeUsername}</username>
                     <password>${SonatypePassword}</password>
                 </server>
             <servers>
@@ -42,7 +42,7 @@ steps:
     displayName: 'Maven prepare'
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m -Dusername=PAT -Dpassword=$(System.AccessToken)'
+      mavenOptions: '-Xmx3072m -s ~/.m2/settings.xml -Dusername=PAT -Dpassword=$(System.AccessToken)'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
