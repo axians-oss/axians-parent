@@ -44,7 +44,7 @@ stepS:
         <settings>
             <servers>
                 <server>
-                    <id>central</id>
+                    <id>ossrh</id>
                     <username>${SonatypeUsername}</username>
                     <password>${SonatypePassword}</password>
                 </server>
