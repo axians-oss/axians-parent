@@ -21,7 +21,7 @@ steps:
       mavenPomFile: 'pom.xml'
       mavenOptions: >
         -Xmx3072m
-        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.connectionString=jdbc:postgresql://cve-db.postgres.database.azure.com:5432/cve-db 
         -Dowasp.db.username=$(OwaspDbUsername) 
         -Dowasp.db.password=$(OwaspDbPassword) 
         -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
