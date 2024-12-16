@@ -52,14 +52,14 @@ steps:
     displayName: 'Maven prepare'
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m -s ~/.m2/settings.xml -Dusername=PAT -Dpassword=$(System.AccessToken)'
+      mavenOptions: '-Xmx3072m -Dusername=PAT -Dpassword=$(System.AccessToken)'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:prepare'
-      options: '-B -DscmCommentPrefix="[skip ci]"'
+      options: '-B -DscmCommentPrefix="[skip ci]" -s ~/.m2/settings.xml'
 
   - task: Maven@4
     displayName: 'Maven release'
