@@ -33,5 +33,4 @@ steps:
       goals: 'clean package -P qa'
       options: >
         -B -DscmCommentPrefix="[skip ci]" 
-        -s ./settings.xml
         -X
