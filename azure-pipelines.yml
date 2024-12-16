@@ -30,11 +30,6 @@ steps:
         git config --global user.name "AxiansIS"
         git checkout -b $(Build.SourceBranchName)
 
-  - task: MavenAuthenticate@0
-    displayName: 'Maven Authenticate'
-    inputs:
-      mavenServiceConnections: 'GitHub'
-
   - task: Bash@3
     displayName: 'Add sonatype credentials to settings.xml'
     inputs:
