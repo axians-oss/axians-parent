@@ -71,7 +71,7 @@ steps:
       MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m'
+      mavenOptions: '-Xmx3072m --enable-native-access=ALL-UNNAMED'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
@@ -88,7 +88,6 @@ steps:
         -Dowasp.db.username=$(OwaspDbUsername) 
         -Dowasp.db.password=$(OwaspDbPassword) 
         -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
-        --enable-native-access=ALL-UNNAMED
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
