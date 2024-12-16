@@ -9,6 +9,21 @@ variables:
 
 steps:
   - script: |
+      echo $MAVEN_GPG_PASSPHRASE
+      echo $OWASP_DB_CONNECTION_STRING
+      echo $OWASP_DB_USERNAME
+      echo $OWASP_DB_PASSWORD
+      echo $OWASP_NVD_API_KEY
+    env:
+      MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
+      OWASP_DB_CONNECTION_STRING: $(OwaspDbConnectionString)
+      OWASP_DB_USERNAME: $(OwaspDbUsername)
+      OWASP_DB_PASSWORD: $(OwaspDbPassword)
+      OWASP_NVD_API_KEY: $(OwaspNvdApiKey)
+      GIT_HUB_PAT: $(GitHubPAT)
+    displayName: 'Print variables'
+
+  - script: |
       sudo apt-get update
       sudo apt-get install -y gnupg
     displayName: 'Install or update GPG'  
@@ -66,20 +81,6 @@ steps:
         -s ./settings.xml
         -Dusername=PAT
         -Dpassword=$(GIT_HUB_PAT)
-
-  - script: |
-      echo $MAVEN_GPG_PASSPHRASE
-      echo $OWASP_DB_CONNECTION_STRING
-      echo $OWASP_DB_USERNAME
-      echo $OWASP_DB_PASSWORD
-      echo $OWASP_NVD_API_KEY
-    env:
-      MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
-      OWASP_DB_CONNECTION_STRING: $(OwaspDbConnectionString)
-      OWASP_DB_USERNAME: $(OwaspDbUsername)
-      OWASP_DB_PASSWORD: $(OwaspDbPassword)
-      OWASP_NVD_API_KEY: $(OwaspNvdApiKey)
-      GIT_HUB_PAT: $(GitHubPAT)
 
   - task: Maven@4
     displayName: 'Maven release'
