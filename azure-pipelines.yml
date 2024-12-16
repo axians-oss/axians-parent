@@ -40,11 +40,6 @@ steps:
         <settings>
             <servers>
                 <server>
-                    <id>github</id>
-                    <username>${env.SYSTEM_ACCESSTOKEN}</username>
-                    <password>${env.SYSTEM_ACCESSTOKEN}</password>
-                </server>
-                <server>
                     <id>ossrh</id>
                     <username>${SonatypeUsername}</username>
                     <password>${SonatypePassword}</password>
@@ -64,9 +59,7 @@ steps:
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:prepare'
-      options: >
-        -B -DscmCommentPrefix="[skip ci]"
-        -s ./settings.xml
+      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml'
 
   - task: Maven@4
     displayName: 'Maven release'
@@ -81,9 +74,7 @@ steps:
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:perform -P qa,release,sonatype'
-      options: >
-        -B -DscmCommentPrefix="[skip ci]"
-        -s ./settings.xml
+      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml -Dusername=PAT -Dpassword=$(System.AccessToken)'
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
