@@ -230,6 +230,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>${maven-release-plugin.version}</version>
                     <configuration>
+                        <arguments>-Dowasp.db.connectionString=${owasp.db.connectionString} -Dowasp.db.username=${owasp.db.username} -Dowasp.db.password=${owasp.db.password} -Dowasp.nvd.api_key=${owasp.nvd.api_key}</arguments>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <useReleaseProfile>false</useReleaseProfile>
                         <goals>deploy</goals>

@@ -80,7 +80,17 @@ steps:
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'clean release:perform'
-      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml -Dusername=PAT -Dpassword=$(GitHubPAT) -Darguments="-Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)" -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false -X'
+      options: >
+        -B -DscmCommentPrefix="[skip ci]" 
+        -s ./settings.xml 
+        -Dusername=PAT 
+        -Dpassword=$(GitHubPAT)
+        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.username=$(OwaspDbUsername) 
+        -Dowasp.db.password=$(OwaspDbPassword) 
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
+        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
+        -X
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
