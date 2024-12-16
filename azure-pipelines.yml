@@ -48,22 +48,22 @@ steps:
         </settings>
         EOF    
 
-  - task: Maven@4
-    displayName: 'Maven prepare'
-    inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.21'
-      jdkArchitectureOption: 'x64'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'release:prepare'
-      options: >
-        -B -DscmCommentPrefix="[skip ci]" 
-        -s ./settings.xml
-        -Dusername=PAT
-        -Dpassword=$(GitHubPAT)
+#  - task: Maven@4
+#    displayName: 'Maven prepare'
+#    inputs:
+#      mavenPomFile: 'pom.xml'
+#      mavenOptions: '-Xmx3072m'
+#      javaHomeOption: 'JDKVersion'
+#      jdkVersionOption: '1.21'
+#      jdkArchitectureOption: 'x64'
+#      publishJUnitResults: true
+#      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#      goals: 'release:prepare'
+#      options: >
+#        -B -DscmCommentPrefix="[skip ci]"
+#        -s ./settings.xml
+#        -Dusername=PAT
+#        -Dpassword=$(GitHubPAT)
 
   - task: Maven@4
     displayName: 'Maven release'
@@ -79,7 +79,7 @@ steps:
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'release:perform -P qa,release,sonatype'
+      goals: 'clean verify -P qa'
       options: >
         -B -DscmCommentPrefix="[skip ci]" 
         -s ./settings.xml 
@@ -90,6 +90,7 @@ steps:
         -Dowasp.db.password=$(OwaspDbPassword) 
         -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
         -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
+        -X
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
