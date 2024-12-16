@@ -33,4 +33,5 @@ steps:
       goals: 'clean verify -P qa'
       options: >
         -B -DscmCommentPrefix="[skip ci]" 
+        -Dowasp.db.connectionString=jdbc:postgresql://cve-db.postgres.database.azure.com:5432/cve-db        
         -X
