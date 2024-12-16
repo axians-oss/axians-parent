@@ -97,6 +97,7 @@ steps:
       cliProjectName: Axians Super POM
       cliSources: src
       extraProperties: |
+        sonar.branch.name=$(Build.SourceBranchName)
         sonar.projectBaseDir=./target/checkout
         sonar.java.binaries=target/classes
         sonar.java.libraries=**/*
