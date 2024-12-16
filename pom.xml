@@ -4,7 +4,7 @@
 
     <groupId>nl.axians</groupId>
     <artifactId>axians-parent</artifactId>
-    <version>17-SNAPSHOT</version>
+    <version>17</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -39,7 +39,7 @@
         <connection>scm:https://github.com/axians-oss/axians-parent.git</connection>
         <developerConnection>scm:git:https://github.com/axians-oss/axians-parent.git</developerConnection>
         <url>https://github.com/axians-oss/axians-parent</url>
-        <tag>HEAD</tag>
+        <tag>axians-parent-17</tag>
     </scm>
 
     <properties>
@@ -321,10 +321,10 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="${owasp.db.connectionString}"/>
-                                <echo message="${owasp.db.username}"/>
-                                <echo message="${owasp.db.password}"/>
-                                <echo message="${owasp.nvd.api_key}"/>
+                                <echo message="${owasp.db.connectionString}" />
+                                <echo message="${owasp.db.username}" />
+                                <echo message="${owasp.db.password}" />
+                                <echo message="${owasp.nvd.api_key}" />
                             </target>
                         </configuration>
                     </execution>
