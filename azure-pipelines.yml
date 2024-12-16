@@ -77,6 +77,10 @@ steps:
         -Xmx3072m
         -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
         --enable-native-access=ALL-UNNAMED
+        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.username=$(OwaspDbUsername) 
+        -Dowasp.db.password=$(OwaspDbPassword) 
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
@@ -88,11 +92,6 @@ steps:
         -s ./settings.xml 
         -Dusername=PAT 
         -Dpassword=$(GitHubPAT)
-        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
-        -Dowasp.db.username=$(OwaspDbUsername) 
-        -Dowasp.db.password=$(OwaspDbPassword) 
-        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
-        -X
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
