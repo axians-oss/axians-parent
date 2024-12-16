@@ -42,13 +42,6 @@ steps:
         </settings>
         EOF    
 
-  - task: Bash@3
-    displayName: 'Show settings.xml'
-    inputs:
-      targetType: 'inline'
-      script: |
-        cat ./settings.xml
-
   - task: Maven@4
     displayName: 'Maven prepare'
     inputs:
@@ -100,7 +93,7 @@ steps:
       organization: 'axians'
       scannerMode: 'cli'
       configMode: manual
-      cliProjectKey: nl.axians:axians
+      cliProjectKey: nl.axians:axians-parent
       cliProjectName: Axians Super POM
       cliSources: src
       extraProperties: |
