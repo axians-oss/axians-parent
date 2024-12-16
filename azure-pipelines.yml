@@ -48,11 +48,6 @@ steps:
         </settings>
         EOF    
 
-  - script: |
-      echo $(OwaspDbConnectionString)
-      echo $(OwaspDbUsername)
-      echo $(OwaspDbPassword)
-
   - task: Maven@4
     displayName: 'Maven prepare'
     inputs:
@@ -95,6 +90,7 @@ steps:
         -s ./settings.xml 
         -Dusername=PAT 
         -Dpassword=$(GitHubPAT)
+        -X
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
