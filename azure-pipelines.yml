@@ -44,7 +44,7 @@ steps:
                     <username>${SonatypeUsername}</username>
                     <password>${SonatypePassword}</password>
                 </server>
-            <servers>
+            </servers>
         </settings>
         EOF    
 
