@@ -36,7 +36,7 @@ stepS:
       mavenServiceConnections: 'github-axians-oss'
 
   - task: Bash@3
-    displayName: 'Add Maven Central credentials to settings.xml'
+    displayName: 'Add sonatype credentials to settings.xml'
     inputs:
       targetType: 'inline'
       script: |
@@ -77,7 +77,7 @@ stepS:
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'release:perform -P github-release'
+      goals: 'release:perform -P qa,release,sonatype'
       options: '-B -DscmCommentPrefix="[skip ci]"'
 
   - task: SonarCloudPrepare@3

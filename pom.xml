@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.axians</groupId>
-    <artifactId>axians</artifactId>
+    <artifactId>axians-parent</artifactId>
     <version>10-SNAPSHOT</version>
 
-    <name>Axians Super POM</name>
-    <description><![CDATA[
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>
         The Axians Super POM is used to define the common Maven settings for all Axians projects in The Netherlands.
-]]></description>
+    </description>
 
     <url>https://github.com/axians-oss/axians-parent</url>
 
@@ -81,22 +81,13 @@
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.3.0</maven-surefire-plugin.version>
-        <native-maven-plugin.version>0.10.4</native-maven-plugin.version>
         <owasp-sonar-maven-plugin.version>1.0.1</owasp-sonar-maven-plugin.version>
-
-        <!-- Spring Boot Maven plugin settings -->
-        <container-registry>local</container-registry>
-        <skip.native.image>true</skip.native.image>
-        <metadata-repository.version>0.3.15</metadata-repository.version>
 
         <!-- OWASP settings -->
         <owasp.db.connectionString/>
         <owasp.db.username/>
         <owasp.db.password/>
         <owasp.nvd.api_key/>
-
-        <!-- Framework versions -->
-        <spring-boot.version>3.4.0</spring-boot.version>
     </properties>
 
     <build>
@@ -281,64 +272,6 @@
                 </plugin>
 
                 <!-- Spring Boot plugins -->
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                    <configuration>
-                        <image>
-                            <builder>paketobuildpacks/builder-jammy-java-tiny:latest</builder>
-                            <env>
-                                <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                            </env>
-                            <name>${container-registry}/${project.artifactId}:${project.version}</name>
-                        </image>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>repackage</id>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>process-aot</id>
-                            <goals>
-                                <goal>process-aot</goal>
-                            </goals>
-                            <configuration>
-                                <skip>${skip.native.image}</skip>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>build-image</id>
-                            <goals>
-                                <goal>build-image</goal>
-                            </goals>
-                            <configuration>
-                                <skip>${skip.native.image}</skip>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.graalvm.buildtools</groupId>
-                    <artifactId>native-maven-plugin</artifactId>
-                    <version>${native-maven-plugin.version}</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <metadataRepository>
-                            <version>${metadata-repository.version}</version>
-                        </metadataRepository>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>add-reachability-metadata</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -381,7 +314,7 @@
 
     <profiles>
         <profile>
-            <id>devops-release</id>
+            <id>qa</id>
             <build>
                 <plugins>
                     <plugin>
@@ -463,6 +396,13 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -493,7 +433,7 @@
             </build>
         </profile>
         <profile>
-            <id>github-release</id>
+            <id>sonatype</id>
             <distributionManagement>
                 <snapshotRepository>
                     <id>ossrh</id>
@@ -506,111 +446,6 @@
             </distributionManagement>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${dependency-check-maven.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>42.7.4</version>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <format>JSON</format>
-                            <connectionString>${owasp.db.connectionString}</connectionString>
-                            <databaseUser>${owasp.db.username}</databaseUser>
-                            <databasePassword>${owasp.db.password}</databasePassword>
-                            <databaseDriverName>org.postgresql.Driver</databaseDriverName>
-                            <autoUpdate>true</autoUpdate>
-                            <nvdApiKey>${owasp.nvd.api_key}</nvdApiKey>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>owasp-dependency-check</id>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>nl.axians</groupId>
-                        <artifactId>owasp-sonar-maven-plugin</artifactId>
-                        <version>${owasp-sonar-maven-plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.owasp</groupId>
-                                <artifactId>dependency-check-maven</artifactId>
-                                <version>${dependency-check-maven.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>owasp-sonar</id>
-                                <goals>
-                                    <goal>owasp-sonar-report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                                    <excludes>
-                                        <exclude>**/Test*</exclude>
-                                        <exclude>**/*Test</exclude>
-                                        <exclude>**/*Tests</exclude>
-                                        <exclude>**/*TestCase</exclude>
-                                        <exclude>**/*TestSuite</exclude>
-                                    </excludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven-source-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
