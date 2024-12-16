@@ -21,10 +21,6 @@ steps:
       mavenPomFile: 'pom.xml'
       mavenOptions: >
         -Xmx3072m
-        -Dowasp.db.connectionString=jdbc:postgresql://cve-db.postgres.database.azure.com:5432/cve-db 
-        -Dowasp.db.username=$(OwaspDbUsername) 
-        -Dowasp.db.password=$(OwaspDbPassword) 
-        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
@@ -32,6 +28,9 @@ steps:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'clean verify -P qa'
       options: >
-        -B -DscmCommentPrefix="[skip ci]" 
-        -Dowasp.db.connectionString=jdbc:postgresql://cve-db.postgres.database.azure.com:5432/cve-db        
+        -B -DscmCommentPrefix="[skip ci]"
+        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.username=$(OwaspDbUsername) 
+        -Dowasp.db.password=$(OwaspDbPassword) 
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
         -X
