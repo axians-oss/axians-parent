@@ -4,7 +4,7 @@
 
     <groupId>nl.axians</groupId>
     <artifactId>axians-parent</artifactId>
-    <version>22-SNAPSHOT</version>
+    <version>23-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
