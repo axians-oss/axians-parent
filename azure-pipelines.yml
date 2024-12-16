@@ -15,3 +15,23 @@ steps:
       echo $(OwaspNvdApiKey)
     displayName: 'Display variables'
 
+  - task: Maven@4
+    displayName: 'Maven package'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: >
+        -Xmx3072m
+        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.username=$(OwaspDbUsername) 
+        -Dowasp.db.password=$(OwaspDbPassword) 
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.21'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      goals: 'clean package -p qa'
+      options: >
+        -B -DscmCommentPrefix="[skip ci]" 
+        -s ./settings.xml
+        -X
