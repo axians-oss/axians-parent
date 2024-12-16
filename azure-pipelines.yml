@@ -79,13 +79,13 @@ steps:
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'clean verify -P qa'
+      goals: 'clean release:perform'
       options: >
         -B -DscmCommentPrefix="[skip ci]" 
         -s ./settings.xml 
         -Dusername=PAT 
         -Dpassword=$(GitHubPAT)
-        -Darguments="-Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)"
+        -Darguments=\"-Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)\"
         -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
         -X
 
