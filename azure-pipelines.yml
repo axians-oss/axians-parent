@@ -48,6 +48,11 @@ steps:
         </settings>
         EOF    
 
+  - script: |
+      echo $OwaspDbConnectionString
+      echo $OwaspDbUsername
+      echo $OwaspDbPassword
+
   - task: Maven@4
     displayName: 'Maven prepare'
     inputs:

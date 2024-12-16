@@ -233,7 +233,7 @@
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <useReleaseProfile>false</useReleaseProfile>
                         <goals>deploy</goals>
-                        <releaseProfiles>sharedcare-release</releaseProfiles>
+                        <releaseProfiles>release</releaseProfiles>
                     </configuration>
                 </plugin>
                 <plugin>
