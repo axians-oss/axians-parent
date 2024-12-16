@@ -4,7 +4,7 @@
 
     <groupId>nl.axians</groupId>
     <artifactId>axians-parent</artifactId>
-    <version>24-SNAPSHOT</version>
+    <version>24</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -39,7 +39,7 @@
         <connection>scm:https://github.com/axians-oss/axians-parent.git</connection>
         <developerConnection>scm:git:https://github.com/axians-oss/axians-parent.git</developerConnection>
         <url>https://github.com/axians-oss/axians-parent</url>
-        <tag>HEAD</tag>
+        <tag>axians-parent-24</tag>
     </scm>
 
     <properties>
