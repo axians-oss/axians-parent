@@ -35,8 +35,8 @@ steps:
             <servers>
                 <server>
                     <id>ossrh</id>
-                    <username>${SonatypeUsername}</username>
-                    <password>${SonatypePassword}</password>
+                    <username>$(SonatypeUsername)</username>
+                    <password>$(SonatypePassword)</password>
                 </server>
             </servers>
         </settings>
