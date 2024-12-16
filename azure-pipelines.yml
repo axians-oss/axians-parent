@@ -71,7 +71,14 @@ steps:
       MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m --enable-native-access=ALL-UNNAMED'
+      mavenOptions: >
+        -Xmx3072m
+        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
+        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.username=$(OwaspDbUsername) 
+        -Dowasp.db.password=$(OwaspDbPassword) 
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
+        --enable-native-access=ALL-UNNAMED
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
@@ -83,11 +90,6 @@ steps:
         -s ./settings.xml 
         -Dusername=PAT 
         -Dpassword=$(GitHubPAT)
-        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
-        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
-        -Dowasp.db.username=$(OwaspDbUsername) 
-        -Dowasp.db.password=$(OwaspDbPassword) 
-        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
