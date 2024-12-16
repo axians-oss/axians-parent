@@ -84,7 +84,6 @@ steps:
         -Dowasp.db.password=$(OwaspDbPassword)
         -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
         -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
-        -X
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
