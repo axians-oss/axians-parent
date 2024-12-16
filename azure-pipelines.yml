@@ -52,14 +52,18 @@ steps:
     displayName: 'Maven prepare'
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m -Dusername=PAT -Dpassword=$(System.AccessToken)'
+      mavenOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:prepare'
-      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml'
+      options: >
+        -B -DscmCommentPrefix="[skip ci]" 
+        -s ./settings.xml
+        -Dusername=PAT
+        -Dpassword=$(GitHubPAT)
 
   - task: Maven@4
     displayName: 'Maven release'
@@ -67,14 +71,24 @@ steps:
       MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m -Dusername=PAT -Dpassword=$(System.AccessToken) --enable-native-access=ALL-UNNAMED -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false -Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)'
+      mavenOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:perform -P qa,release,sonatype'
-      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml -Dusername=PAT -Dpassword=$(System.AccessToken)'
+      options: >
+        -B -DscmCommentPrefix="[skip ci]" 
+        -s ./settings.xml 
+        -Dusername=PAT 
+        -Dpassword=$(GitHubPAT)
+        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
+        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
+        -Dowasp.db.username=$(OwaspDbUsername) 
+        -Dowasp.db.password=$(OwaspDbPassword) 
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
+        --enable-native-access=ALL-UNNAMED
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
