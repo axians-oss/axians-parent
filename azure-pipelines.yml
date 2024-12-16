@@ -42,75 +42,82 @@ steps:
         </settings>
         EOF    
 
-  - task: Maven@4
-    displayName: 'Maven prepare'
+  - task: Bash@3
+    displayName: 'Show settings.xml'
     inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.21'
-      jdkArchitectureOption: 'x64'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'release:prepare'
-      options: >
-        -B -DscmCommentPrefix="[skip ci]"
-        -s ./settings.xml
-        -Dusername=PAT
-        -Dpassword=$(GitHubPAT)
+      targetType: 'inline'
+      script: |
+        cat ./settings.xml
 
-  - task: Maven@4
-    displayName: 'Maven release'
-    env:
-      MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
-    inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: >
-        -Xmx3072m
-        --enable-native-access=ALL-UNNAMED
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.21'
-      jdkArchitectureOption: 'x64'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'clean release:perform -P sonatype'
-      options: >
-        -B -DscmCommentPrefix="[skip ci]" 
-        -s ./settings.xml 
-        -Dusername=PAT 
-        -Dpassword=$(GitHubPAT)
-        -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
-        -Dowasp.db.username=$(OwaspDbUsername) 
-        -Dowasp.db.password=$(OwaspDbPassword) 
-        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
-        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
-        -X
-
-  - task: SonarCloudPrepare@3
-    displayName: 'Prepare Analysis on SonarCloud'
-    inputs:
-      SonarCloud: 'SonarCloud'
-      organization: 'axians'
-      scannerMode: 'cli'
-      configMode: manual
-      cliProjectKey: nl.axians:axians
-      cliProjectName: Axians Super POM
-      cliSources: src
-      extraProperties: |
-        sonar.projectBaseDir=./target/checkout
-        sonar.java.binaries=target/classes
-        sonar.java.libraries=**/*
-        sonar.sources=.
-        sonar.coverage.exclusions=src/test/**
-        sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-        sonar.junit.reportPaths=target/surefire-reports
-        sonar.externalIssuesReportPaths=target/sonar-dependency-check-report.json
-
-  - task: SonarCloudAnalyze@3
-    displayName: 'Perform Sonar scan'
-
-  - task: SonarCloudPublish@3
-    displayName: 'Publish analysis to SonarCloud'
-    inputs:
-      pollingTimeoutSec: '300'
+#  - task: Maven@4
+#    displayName: 'Maven prepare'
+#    inputs:
+#      mavenPomFile: 'pom.xml'
+#      mavenOptions: '-Xmx3072m'
+#      javaHomeOption: 'JDKVersion'
+#      jdkVersionOption: '1.21'
+#      jdkArchitectureOption: 'x64'
+#      publishJUnitResults: true
+#      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#      goals: 'release:prepare'
+#      options: >
+#        -B -DscmCommentPrefix="[skip ci]"
+#        -s ./settings.xml
+#        -Dusername=PAT
+#        -Dpassword=$(GitHubPAT)
+#
+#  - task: Maven@4
+#    displayName: 'Maven release'
+#    env:
+#      MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
+#    inputs:
+#      mavenPomFile: 'pom.xml'
+#      mavenOptions: >
+#        -Xmx3072m
+#        --enable-native-access=ALL-UNNAMED
+#      javaHomeOption: 'JDKVersion'
+#      jdkVersionOption: '1.21'
+#      jdkArchitectureOption: 'x64'
+#      publishJUnitResults: true
+#      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#      goals: 'clean release:perform -P sonatype'
+#      options: >
+#        -B -DscmCommentPrefix="[skip ci]"
+#        -s ./settings.xml
+#        -Dusername=PAT
+#        -Dpassword=$(GitHubPAT)
+#        -Dowasp.db.connectionString=$(OwaspDbConnectionString)
+#        -Dowasp.db.username=$(OwaspDbUsername)
+#        -Dowasp.db.password=$(OwaspDbPassword)
+#        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
+#        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
+#        -X
+#
+#  - task: SonarCloudPrepare@3
+#    displayName: 'Prepare Analysis on SonarCloud'
+#    inputs:
+#      SonarCloud: 'SonarCloud'
+#      organization: 'axians'
+#      scannerMode: 'cli'
+#      configMode: manual
+#      cliProjectKey: nl.axians:axians
+#      cliProjectName: Axians Super POM
+#      cliSources: src
+#      extraProperties: |
+#        sonar.projectBaseDir=./target/checkout
+#        sonar.java.binaries=target/classes
+#        sonar.java.libraries=**/*
+#        sonar.sources=.
+#        sonar.coverage.exclusions=src/test/**
+#        sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+#        sonar.junit.reportPaths=target/surefire-reports
+#        sonar.externalIssuesReportPaths=target/sonar-dependency-check-report.json
+#
+#  - task: SonarCloudAnalyze@3
+#    displayName: 'Perform Sonar scan'
+#
+#  - task: SonarCloudPublish@3
+#    displayName: 'Publish analysis to SonarCloud'
+#    inputs:
+#      pollingTimeoutSec: '300'
 
