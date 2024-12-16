@@ -67,14 +67,14 @@ steps:
       MAVEN_GPG_PASSPHRASE: $(GpgPassphrase)
     inputs:
       mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m -s ~/.m2/settings.xml -Dusername=PAT -Dpassword=$(System.AccessToken) --enable-native-access=ALL-UNNAMED -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false -Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)'
+      mavenOptions: '-Xmx3072m -Dusername=PAT -Dpassword=$(System.AccessToken) --enable-native-access=ALL-UNNAMED -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false -Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:perform -P qa,release,sonatype'
-      options: '-B -DscmCommentPrefix="[skip ci]"'
+      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml'
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
