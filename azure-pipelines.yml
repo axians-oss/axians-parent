@@ -35,6 +35,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        mkdir -p ~/.m2
         cat <<EOF > ~/.m2/settings.xml
         <settings>
             <servers>
