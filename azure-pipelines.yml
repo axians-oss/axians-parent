@@ -7,20 +7,20 @@ pool:
 variables:
   - group: 'OwaspVariableGroup'
 
-stepS:
-  - displayName: 'Install or update GPG'
-    script: |
+steps:
+  - script: |
       sudo apt-get update
       sudo apt-get install -y gnupg
+    displayName: 'Install or update GPG'  
 
   - task: DownloadSecureFile@1
     displayName: 'Download GPG private key'
     inputs:
       secureFile: 'gpg-private-key.asc'
 
-  - displayName: 'Import GPG private key'
-    script: |
+  - script: |
       gpg --batch --import $(Agent.TempDirectory)/gpg-private-key.asc
+    displayName: 'Import GPG private key'  
 
   - task: CmdLine@2
     displayName: 'Checkout branch'
