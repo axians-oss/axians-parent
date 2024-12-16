@@ -36,7 +36,7 @@ steps:
       targetType: 'inline'
       script: |
         mkdir -p ~/.m2
-        cat <<EOF > ~/.m2/settings.xml
+        cat <<EOF > ./settings.xml
         <settings>
             <servers>
                 <server>
@@ -59,7 +59,7 @@ steps:
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'release:prepare'
-      options: '-B -DscmCommentPrefix="[skip ci]" -s ~/.m2/settings.xml'
+      options: '-B -DscmCommentPrefix="[skip ci]" -s ./settings.xml'
 
   - task: Maven@4
     displayName: 'Maven release'
