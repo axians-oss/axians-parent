@@ -85,7 +85,7 @@ steps:
         -s ./settings.xml 
         -Dusername=PAT 
         -Dpassword=$(GitHubPAT)
-        "-Darguments -Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)"
+        -Darguments="-Dowasp.db.connectionString=$(OwaspDbConnectionString) -Dowasp.db.username=$(OwaspDbUsername) -Dowasp.db.password=$(OwaspDbPassword) -Dowasp.nvd.api_key=$(OwaspNvdApiKey)"
         -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
         -X
 
