@@ -73,12 +73,7 @@ steps:
       mavenPomFile: 'pom.xml'
       mavenOptions: >
         -Xmx3072m
-        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
         --enable-native-access=ALL-UNNAMED
-        -Dowasp.db.connectionString=$(OWASP_DB_CONNECTION_STRING) 
-        -Dowasp.db.username=$(OWASP_DB_USERNAME) 
-        -Dowasp.db.password=$(OWASP_DB_PASSWORD) 
-        -Dowasp.nvd.api_key=$(OWASP_NVD_API_KEY)
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.21'
       jdkArchitectureOption: 'x64'
@@ -93,7 +88,8 @@ steps:
         -Dowasp.db.connectionString=$(OwaspDbConnectionString) 
         -Dowasp.db.username=$(OwaspDbUsername) 
         -Dowasp.db.password=$(OwaspDbPassword) 
-        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)        
+        -Dowasp.nvd.api_key=$(OwaspNvdApiKey)
+        -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false 
 
   - task: SonarCloudPrepare@3
     displayName: 'Prepare Analysis on SonarCloud'
