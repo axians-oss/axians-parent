@@ -383,6 +383,7 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
+                                    <dataFile>${project.basedir}/target/checkout/target/jacoco.exec</dataFile>
                                     <excludes>
                                         <exclude>**/Test*</exclude>
                                         <exclude>**/*Test</exclude>
