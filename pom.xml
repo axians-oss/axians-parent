@@ -87,9 +87,6 @@
         <owasp.db.username />
         <owasp.db.password />
         <owasp.nvd.api_key />
-
-        <!-- Skip native image generation -->
-        <skip.native.image>true</skip.native.image>
     </properties>
 
     <build>
